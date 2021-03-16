@@ -20,7 +20,7 @@ CREATE TABLE role (
 
 CREATE TABLE employee (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    first_name VARCHAR(30),
+    first_name VARCHAR(30) ,
     last_name VARCHAR(30),
     role_id INT,
     manager_id INT,
@@ -28,21 +28,20 @@ CREATE TABLE employee (
     FOREIGN KEY (manager_id) REFERENCES employee(id)
 );
 
--- SELECT employee.first_name, employee.last_name, role.title, department.name, role.salary;
--- FROM employee
+INSERT INTO department (`name`)
+VALUES ("Management"),
+ ("Engineering"),
+ ("Interning");
 
--- LEFT JOIN role
--- ON employee.role_id = role.id
+INSERT INTO role (`title`, `department_id`, `salary`)
+VALUES ("Supervisor", 1, 3000),
+    ("Engineer", 2, 2000),
+    ("Intern", 3, 1000);
 
--- LEFT JOIN department
--- ON department.id = role.department_id
--- ;
 
--- INSERT INTO songs(title, artist, genre)
--- VALUES("One", "Metallica", "Rock")
+INSERT INTO employee (`first_name`, `last_name`, `role_id`, `manager_id`)
+VALUES ("Anthony", "Cooper", 1, NULL),
+       ("Nicholas", "Marrone", 2, 1),
+       ("Max", "Alle", 1, 1),
+       ("John", "Smith", 3, 3);
 
--- INSERT INTO songs(title, artist, genre)
--- VALUES("Movie", "Lil Uzi Vert", "Rap")
-
--- INSERT INTO songs(title, artist, genre)
--- VALUES("Diamonds", "Rhianna", "Hip-Hop")
