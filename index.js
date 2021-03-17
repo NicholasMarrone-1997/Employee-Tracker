@@ -88,55 +88,70 @@ const viewRole = () => {
 const updateRole = () => {
     // query the database for all employees
     connection.query('SELECT * FROM employee', (err, results) => {
-      if (err) throw err;
-      // once you have the items, prompt the user for which they'd like to bid on
-      inquirer
-        .prompt([
-          {
-            name: 'choice',
-            type: 'list',
-            choices : () => results.map((item)=>{
-              return{name: item.first_name, value:item.id}
-            }),
-            message: 'Which employees role would you like to update?',
-          },
-        ])
-        .then((answer) => {
-          // get the information of the chosen item
-          let chosenItem;
-          results.forEach((item) => {
-            if (item.id === answer.choice) {
-              chosenItem = item;
-            }
-          });
-          console.log(chosenItem, answer)
-          // determine if bid was high enough
-          if (chosenItem.highest_bid < parseInt(answer.bid)) {
-            // bid was high enough, so update db, let the user know, and start over
-            connection.query(
-              'UPDATE auctions SET ? WHERE ?',
-              [
-                {
-                  highest_bid: answer.bid,
-                },
-                {
-                  id: chosenItem.id,
-                },
-              ],
-              (error) => {
-                if (error) throw err;
-                console.log('Bid placed successfully!');
-                start();
-              }
-            );
-          } else {
-            // bid wasn't high enough, so apologize and start over
-            console.log('Your bid was too low. Try again...');
-            start();
-          }
-        });
+        if (err) throw err;
+        // *********** CHOOSING EMPLOYEE **************
+        // once you have the items, prompt the user for which they'd like to bid on
+        inquirer
+            .prompt([{
+                name: 'choice',
+                type: 'list',
+                choices: () => results.map((item) => {
+                    return {
+                        name: item.first_name,
+                        value: item.id
+                    }
+                }),
+                message: 'Which employees role would you like to update?',
+            }, ])
+            .then((answer) => {
+                console.log(answer.choice);
+                // get the information of the chosen item
+                let eeId = answer.choice;
+        // *********** CHOOSING ROLE **************
+                connection.query('SELECT * FROM role', (err, results) => {
+                if (err) throw err;
+                inquirer
+                    .prompt([{
+                        name: "newRole",
+                        type: "list",
+                        choices: () => results.map((item) => {
+                            return {
+                                name: item.title
+                            }
+                        }),
+                        message: 'What role should they have?'
+                    }])
+                    .then((answer) => {
+                        // get the information of the chosen item
+                        console.log(answer.id);
+                    });
+                // determine if bid was high enough
+                // if (chosenItem.highest_bid < parseInt(answer.bid)) {
+                //     // bid was high enough, so update db, let the user know, and start over
+                //     connection.query(
+                //         'UPDATE auctions SET ? WHERE ?',
+                //         [{
+                //                 highest_bid: answer.bid,
+                //             },
+                //             {
+                //                 id: chosenItem.id,
+                //             },
+                //         ],
+                //         (error) => {
+                //             if (error) throw err;
+                //             console.log('Bid placed successfully!');
+                //             start();
+                //         }
+                //     );
+                // } else {
+                    // bid wasn't high enough, so apologize and start over
+                    // console.log('Your bid was too low. Try again...');
+                //     start();
+                // }
+            });
     });
-  };
+})};
+
 // const changeRole = () => {
 //     connection.query('UPDATE employee SET role_id = value1 WHERE condition;', (err, res) => {
 //         if (err) throw err;
@@ -190,16 +205,6 @@ const viewEmployee = () => {
         selectionMenu();
     });
 };
-
-// const changeRole = () => {
-//     connection.query('SELECT * FROM employee', (err, res) => {
-//         if (err) throw err;
-//         console.table(res);
-//         // connection.end();
-//         selectionMenu();
-//     });
-// };
-
 
 connection.connect((err) => {
     if (err) throw err;
