@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/NicholasMarrone-1997/Employee-Tracker#readme",
   "dependencies": {
+    "console.table": "^0.10.0",
     "inquirer": "^8.0.0",
     "mysql": "^2.18.1"
   }
