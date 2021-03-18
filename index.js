@@ -210,7 +210,7 @@ const addEmployee = () => {
                                 console.log(answers);
                                 connection.query(
                                     'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)',
-                                    [answers.first_name, answers.last_name, answers.role_id, answers.manager_id],
+                                    [answers.first_name, answers.last_name, answers.role_text, answers.manager],
                                     (err) => {
                                         if (err) throw err;
                                         selectionMenu();

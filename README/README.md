@@ -33,5 +33,5 @@ Update employee roles
 
 Github Repo: https://github.com/NicholasMarrone-1997/Employee-Tracker
 
-Video: 
+Video: https://drive.google.com/file/d/1l-SKvqO4vv8ueH0MrkJAR2IEnCwMxOUR/view
 
